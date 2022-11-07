@@ -1,0 +1,38 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "farmstand",
+          "region": "us-west1"
+        }
+      }
+    ]
+  },
+  "emulators": {
+    "firestore": {
+      "enabled": true,
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true,
+      "port": 9000
+    },
+    "auth": {
+      "enabled": true,
+      "port": 8050
+    },
+    "database": {
+      "enabled": true,
+      "port": 8060
+    },
+    "singleProjectMode": true
+  }
+}
