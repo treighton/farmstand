@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore"; 
 import { db } from '~/utils/firebase.config'
 
-type Product = {
+export type Product = {
     options: ProductOption[];
     productTitle: string;
     stock: number;

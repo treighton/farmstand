@@ -7,8 +7,14 @@ import Cover from "~/components/cover";
 import { useCart } from "~/components/cartContext";
 import { LayoutItem } from "~/components/LayoutItem";
 import { Chicken, Eggs, Pork, Vegetables } from "~/svg";
-
+import { Product } from "./products.server";
+import { Dispatch } from "~/components/cartContext";
 import { productLoader } from './products.server'
+
+type ProductCardProps = {
+    product: Product
+    dispatch: Dispatch
+}
 
 export const loader = async () => {
     const products:any = await productLoader()
@@ -18,7 +24,7 @@ export const loader = async () => {
     })
 };
 
-const ProductCard = ({product, dispatch}) => {
+const ProductCard:React.FC<ProductCardProps> = ({product, dispatch}) => {
     const [checkoutData, setCheckoutData] = useState({})
 
     const addToCart = (item:any) => {
@@ -52,7 +58,7 @@ const ProductCard = ({product, dispatch}) => {
                         <select name="productOptions" onChange={ handleSelect } defaultValue={product.options[0].optionPrice}>
                             {product.options.map((option:any) => (
                                 <option key={option.optionTitle} value={`${option.optionTitle}:${option.optionPrice}`} >
-                                    {option.optionTitle} - {option.optionPrice}
+                                    {option.optionTitle} - ${option.optionPrice}.00/{ product.productTitle === 'Pork' ? 'lb' : 'ea' }
                                 </option>
                             ))}
                         </select>
@@ -61,7 +67,7 @@ const ProductCard = ({product, dispatch}) => {
                                     ...checkoutData,
                                     id: uuid()
                                 })
-                            }} className="mt-5 px-4 py-1 text-sm text-dark rounded-full border border-dark hover:text-white hover:bg-dark hover:border-transparent">Add to cart</button>
+                            }} className="mt-5 px-4 py-1 text-sm text-dark rounded-full border border-dark hover:text-white hover:bg-dark hover:border-transparent">Add to order</button>
                     </div>
                 </LayoutItem>
     )
