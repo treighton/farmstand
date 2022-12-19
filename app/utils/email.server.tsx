@@ -8,7 +8,7 @@ const sendEmail = ({action, payload}) => {
     switch(action) {
         case 'CONFIRMATION':
             sendOrderConfirmationEmail(payload)
-            sendOrdernotification(payload)
+            sendOrderNotification(payload)
             break
         default:
             console.error(`${action} does not exist`)
@@ -50,10 +50,10 @@ const sendOrderConfirmationEmail = async ({orderId, orderDate, order}) => {
     })
 }
 
-const sendOrdernotification = async ({orderId, orderDate, order}) => {
+const sendOrderNotification = async ({orderId, orderDate, order}) => {
     const items = order.items.map((item) => `<li>${item}</li>`).join('')
     const msg = {
-        to: 'treighton@barbellfarm.com, brooke@helmstudio.co', // Change to your recipient
+        to: ['treighton@barbellfarm.com', 'treighton@gmail.com', 'brooke@helmstudio.co'], // Change to your recipient
         from: 'treighton@barbellfarm.com', // Change to your verified sender
         subject: `Order confirmation ${orderId} for ${order.orderType} on ${orderDate}`,
         text: 'and easy to do anywhere, even with Node.js',
