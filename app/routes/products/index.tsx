@@ -62,12 +62,15 @@ const ProductCard:React.FC<ProductCardProps> = ({product, dispatch}) => {
                                 </option>
                             ))}
                         </select>
-                        <button onClick={() => { 
+                        { product.stock ? (
+                            <button onClick={() => { 
                                 addToCart({
                                     ...checkoutData,
                                     id: uuid()
                                 })
                             }} className="mt-5 px-4 py-1 text-sm text-dark rounded-full border border-dark hover:text-white hover:bg-dark hover:border-transparent">Add to order</button>
+                        ) : null }
+                        
                     </div>
                 </LayoutItem>
     )

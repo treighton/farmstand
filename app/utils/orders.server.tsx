@@ -45,16 +45,36 @@ export const getOrder = async (orderId:string) => {
 }
 
 export const getOrders = async () => {
-    const orderDate = getOrderDateString()
     const orderRef = ref(rt);
     try {
-        const order = await get(child(orderRef, `orders/${orderDate}`));
+        const order = await get(child(orderRef, `orders`));
+        
         if (!order.exists()) {
             return { 
                 error: 'looks like something went wrong'
             }
         }
-        return order.val()
+
+        const orders = order.val()
+
+        const sortedOrderDates = Object
+                                    .keys(orders)
+                                    .sort((a:any, b:any) => new Date(a).getTime() - new Date(b).getTime())
+
+        const sortedOrders = sortedOrderDates.map(orderDate => {
+            const dateOrdersRaw = orders[orderDate]
+            const dateOrderKeys = Object.keys(dateOrdersRaw)
+            const dateOrders = dateOrderKeys.map(orderId => ({orderId, ...dateOrdersRaw[orderId]}))
+            const dateOrderDeliveries = dateOrders.filter(order => order.orderType === 'delivery').map(order => order.address)
+
+            return {
+                orderDate, 
+                addresses: dateOrderDeliveries,
+                orders: dateOrders
+            }
+        })
+
+        return sortedOrders
 
     } catch (error) {
         console.log(error)
