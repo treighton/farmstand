@@ -59,7 +59,7 @@ export const getOrders = async () => {
 
         const sortedOrderDates = Object
                                     .keys(orders)
-                                    .sort((a:any, b:any) => new Date(a).getTime() - new Date(b).getTime())
+                                    .sort((a:any, b:any) => new Date(b).getTime() - new Date(a).getTime())
 
         const sortedOrders = sortedOrderDates.map(orderDate => {
             const dateOrdersRaw = orders[orderDate]

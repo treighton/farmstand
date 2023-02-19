@@ -120,7 +120,7 @@ export const action: ActionFunction = async ({
 };
 
 export const loader:LoaderFunction = async ({ request }) => {
-  const user = await getUserData();
+  const user = await getUserData(request);
 
   const data: LoaderData = {
     user,

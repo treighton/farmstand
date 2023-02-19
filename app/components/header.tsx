@@ -85,10 +85,11 @@ const Header: React.FC<HeaderProps> = ({user}) => {
             </button>
             <nav className="ml-auto mr-4 hidden md:block">
               <ul className="flex gap-5 text-xl leading-none">
+                {user.isAdmin ? (<li><Link to="/orderlist">Orderlist</Link></li>) : ''}
                 <li><Link to="/products">Order</Link></li>
                 <li>
                   {
-                  user ?
+                  user.uid ?
                    (
                     <form action="/logout" method="post">
                       <button type="submit">Logout</button>
@@ -123,6 +124,11 @@ const Header: React.FC<HeaderProps> = ({user}) => {
                 items-center
                 justify-center
               ">
+                <li className="p-2 text-center"><Link to="/products">Order</Link></li>
+                { user.isAdmin ? (
+                  <li className="p-2 text-center"><Link to="/Orderlist">Order List</Link></li>
+                ) :
+                ''}
                 <li className="p-2 text-center"><Link to="/products">Order</Link></li>
                 <li className="p-2 text-center">
                   {

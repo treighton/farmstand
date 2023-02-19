@@ -8,7 +8,6 @@ import {
 import { json , redirect} from "@remix-run/node";
 
 import { getOrders } from '~/utils/orders.server'
-
 import { getUserData } from '~/utils/session.server';
 
 type LoaderData = {
@@ -17,8 +16,7 @@ type LoaderData = {
 };
 
 export const loader:LoaderFunction = async ({ request }) => {
-    const user = await getUserData();
-    console.log(user)
+    const user = await getUserData(request);
 
     if (!user?.isAdmin) {
         return redirect('/')
@@ -32,11 +30,8 @@ export const loader:LoaderFunction = async ({ request }) => {
     return json(data);
 };
 
-
-
 const Confirmation:React.FC = () => {
     const { orders } = useLoaderData()
-    console.log(orders)
 
     return (
         <>

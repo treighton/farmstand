@@ -66,14 +66,16 @@ const userIsAdmin = async (userId:string):Promise<Boolean> => {
   })
 };
 
-export async function getUserData() {
+export async function getUserData(request: Request) {
   const user = auth.currentUser;
-  if (user !== null) {
+  const session = await getUserSession(request);
+  const uid = await session.get("idToken");
+
+  if (user !== null && user.uid === uid) {
     // The user object has basic properties such as display name, email, etc.
-    const displayName = user.email;
-    const email = user.email;
-    const uid = user.uid;
-    const isAdmin = await userIsAdmin(uid)
+    const displayName = session.get("email")
+    const email = session.get("email");
+    const isAdmin = session.get("isAdmin")
 
     return {
       uid,
@@ -81,13 +83,23 @@ export async function getUserData() {
       email,
       isAdmin
     }
+  } else { 
+    await signOut(auth)
+    return redirect(request.destination, {
+      headers: {
+        "Set-Cookie": await destroySession(session),
+      },
+    });
   }
+
   return null
 }
 
 export async function getUserId(request: Request) {
   const session = await getUserSession(request);
+  console.log(session)
   const userId = session.get("idToken");
+
   if (!userId || typeof userId !== "string") return null;
   return userId;
 }
@@ -98,8 +110,11 @@ export async function createUserSession(
 ) {
   try {
     const session = await getSession();
+    const isAdmin = await userIsAdmin(user.user.uid);
+
     session.set('idToken', user.user.uid);
     session.set('email', user.user.email);
+    session.set('isAdmin',isAdmin);
 
 
     return redirect(redirectTo, {

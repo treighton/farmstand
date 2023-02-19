@@ -61,13 +61,20 @@ const sendOrderNotification = async ({orderId, orderDate, order}) => {
         <h2> 
             ${order.name} Placed an order for ${order.orderType} ${ order.orderType === 'delivery' ? ` on ${ orderDate } between 10am and 1pm` : ''}.
         </h2>
+        <h3>Contact Info:</h3>
+        <ul>        
+            <li>${order.name}</li>
+            <li>${order.address}</li>
+            <li>${order.phone}</li>
+            <li>${order.email}</li>
+        </ul>
         <p>
             the items in their order are:
         </p>
         <ul>
             ${items}
         </ul>
-        <p className="mt-5">Your total will be $${order.total}.00.</p>
+        <p className="mt-5">Order total will be $${order.total}.00.</p>
         `,
     }
 

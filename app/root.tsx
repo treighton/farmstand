@@ -37,7 +37,13 @@ export const meta: MetaFunction = () => ({
 export const loader:LoaderFunction = async ({ request }) => {
   const session = await getUserSession(request);
 
-  return (await session.get('idToken')) || null;
+  const user = {
+    uid: await session.get('idToken'),
+    isAdmin: await session.get('isAdmin'),
+    email: await session.get('email')
+  }
+
+  return user || null;
 };
 
 export default function App() {
