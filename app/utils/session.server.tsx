@@ -83,13 +83,6 @@ export async function getUserData(request: Request) {
       email,
       isAdmin
     }
-  } else { 
-    await signOut(auth)
-    return redirect(request.destination, {
-      headers: {
-        "Set-Cookie": await destroySession(session),
-      },
-    });
   }
 
   return null
