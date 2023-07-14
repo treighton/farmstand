@@ -39,7 +39,7 @@ const Confirmation:React.FC = () => {
             <div className="flex-1 flex mx-auto my-10 h-full md:w-3/4 w-full">
                 <div className="content flex-1 flex xr">
                     {
-                        orders.map(({orderDate, addresses, orders}) => {
+                        Array.isArray(orders) && orders.map(({orderDate, addresses, orders}) => {
                             const destination = addresses.shift()
                             const waypoints = addresses.join('|')
                             const startingLocation = `10464 franklin blvd elk grove ca 95757`
@@ -59,7 +59,7 @@ const Confirmation:React.FC = () => {
                                         <h3 className="font-bold font-serif">Address</h3>
                                         <p  className="font-bold font-serif text-right">total</p>
                                     </div>
-                                    {orders.map((order, i) => {
+                                    {Array.isArray(orders) && orders.map((order, i) => {
                                     return (
                                         <div key={`${order.name}-${i}`} className="p-4 grid grid-cols-6">
                                             <h3 className="text-xl font-serif mb-4">{order.name}</h3>
@@ -68,7 +68,7 @@ const Confirmation:React.FC = () => {
                                                 {order.orderType}
                                             </div>
                                             <ul className="mb-4 ml-4 list-disc">
-                                                { order.items.map((item, i) => (
+                                                { Array.isArray(order.items) && order.items.map((item, i) => (
                                                     <li key={`${item}-${i}`}>{item}</li>
                                                 )) }
                                             </ul>

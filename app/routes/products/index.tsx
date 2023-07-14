@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid';
 
 import Cover from "~/components/cover";
-import { useCart } from "~/components/cartContext";
+import Container from "~/components/container";
 import { LayoutItem } from "~/components/LayoutItem";
 import { Chicken, Eggs, Pork, Vegetables } from "~/svg";
 import { Product } from "./products.server";
@@ -77,19 +77,26 @@ const ProductCard:React.FC<ProductCardProps> = ({product, dispatch}) => {
 }
 
 export default function Products() {
-  const {products} = useLoaderData();
-  const {state, dispatch} = useCart();
 
   return (
     <div 
         className="flex flex-col"
     >
         <Cover title="Products" />
-        <section className="grid grid-flow-row lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 p-6 bg-light gap-5">
-            {products.map((product:any) => (
-                <ProductCard key={product.productTitle} product={product} dispatch={dispatch}/>
-            ))}
-        </section>
+            <Container className="p-12">
+                <h2 className="text-4xl mb-4">
+                    Apologies
+                </h2>
+                <p className="mb-4">
+                    This has been an exciting and eventful year for us far, but unfortunately with the good also has come some hardship. At the beginning of the summer we had an incident on the farm that resulted in the loss of 30% of our laying flock, and couple that with the move to our new farm and the outrageous heat, and our flock continues to dwindle.
+                </p>
+                <p className="mb-4">
+                    We will work to rebuild the flock, but in the mean time we will no longer be able to take orders online. Until we are back up to a more robust production level orders can be placed via instagram <a href="https://instagram.com/barbell_farm">@barbell_farm</a>, or by text message 916-228-1623. We wont be able to fill all the egg orders we receive, so if we can set up a recurring weekly delivery you'll be more likely to receive eggs.
+                </p>
+                <p className="mb-4">
+                    Thank you all so much for your understanding and continued support!
+                </p>
+            </Container>
     </div>
   );
 }
